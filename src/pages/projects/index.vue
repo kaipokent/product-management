@@ -2,5 +2,5 @@
 
 <template>
   <h1>Projects View</h1>
-  <RouterLink to="/">Home</RouterLink>
+  <RouterLink :to="{ name: '/' }">Home</RouterLink>
 </template>
