@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { supabase } from '@/lib/supabaseClient'
+
+console.log('hi', supabase)
+</script>
 
 <template>
   <main>
