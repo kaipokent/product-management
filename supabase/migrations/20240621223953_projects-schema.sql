@@ -11,4 +11,4 @@ create table
         slug text unique not null,
         status current_status default 'in-progress' not null,
         collaborators text array default array[]::varchar[] not null
-             );
+    );
