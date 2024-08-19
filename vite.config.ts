@@ -8,7 +8,15 @@ import autoprefixer from 'autoprefixer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [VueRouter(), vue(), VueDevTools()],
+  plugins: [
+    VueRouter(),
+    vue({
+      template: {
+        compilerOptions: { isCustomElement: (element) => element.startsWith('iconify-icon') }
+      }
+    }),
+    VueDevTools()
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
