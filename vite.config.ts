@@ -22,9 +22,16 @@ export default defineConfig({
       // targets to transform
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
       // global imports to register
-      imports: ['vue', VueRouterAutoImports],
+      imports: [
+        'vue',
+        VueRouterAutoImports,
+        {
+          pinia: ['defineStore', 'storeToRefs', 'acceptHMRUpdate']
+        }
+      ],
       dts: true,
-      viteOptimizeDeps: true
+      viteOptimizeDeps: true,
+      dirs: ['src/stores']
     }),
     Components(),
     VueDevTools()
