@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { watchEffect } from 'vue'
 import { projectQuery } from '@/utils/supaQueries'
 import type { Project } from '@/utils/supaQueries'
-import { watchEffect } from 'vue'
 
 const route = useRoute('/projects/[slug]')
 
