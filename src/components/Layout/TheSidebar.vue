@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const router = useRouter()
+
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
   { title: 'Projects', to: '/projects', icon: 'lucide:building-2' },
@@ -14,7 +16,9 @@ const accountLinks = [
 const executeAction = async (linkTitle: string) => {
   if (linkTitle === 'Sign out') {
     const { logOut } = await import('@/utils/supaAuth')
-    await logOut()
+    const isLoggedOut = await logOut()
+
+    if (isLoggedOut) router.push('/login')
   }
 }
 </script>
