@@ -1,22 +1,42 @@
 <script setup lang="ts">
 interface LinkProp {
   title: string
-  to: string
+  to?: string
   icon: string
 }
 defineProps<{ links: LinkProp[] }>()
+const emits = defineEmits<{
+  actionClicked: [string]
+}>()
+
+const emitAction = (linkTitle: string) => {
+  emits('actionClicked', linkTitle)
+}
 </script>
 
 <template>
-  <RouterLink
-    v-for="link in links"
-    :key="link.title"
-    exact-active-class="text-primary bg-muted"
-    :to="link.to"
-    class="flex items-center gap-3 px-4 py-2 mx-2 transition-colors rounded-lg hover:text-primary justify-center lg:justify-normal text-muted-foreground"
-    :aria-label="link.title"
-  >
-    <iconify-icon :icon="link.icon"></iconify-icon>
-    <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
-  </RouterLink>
+  <template v-for="link in links" :key="link.title">
+    <RouterLink
+      v-if="link.to"
+      exact-active-class="text-primary bg-muted"
+      :to="link.to"
+      class="nav-link"
+      :aria-label="link.title"
+    >
+      <iconify-icon :icon="link.icon"></iconify-icon>
+      <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
+    </RouterLink>
+
+    <button v-else class="nav-link cursor-pointer" @click="emitAction(link.title)">
+      <iconify-icon :icon="link.icon"></iconify-icon>
+      <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
+    </button>
+  </template>
 </template>
+
+<style scoped>
+.nav-link {
+  @apply flex items-center gap-3 px-4 py-2 mx-2 transition-colors rounded-lg
+  hover:text-primary justify-center lg:justify-normal text-muted-foreground;
+}
+</style>
