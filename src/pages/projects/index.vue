@@ -12,7 +12,7 @@ const { getProjects } = projectsLoader
 await getProjects()
 
 const { groupCollabs, groupedCollabs } = useCollabs()
-groupCollabs(projects.value)
+groupCollabs(projects.value ?? [])
 
 const columnsWithCollabs = columns(groupedCollabs)
 </script>
