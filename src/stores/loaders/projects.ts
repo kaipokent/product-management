@@ -1,20 +1,28 @@
-import { projectsQuery, projectQuery, updateProjectQuery } from '@/utils/supaQueries'
+import {
+  projectsQuery,
+  projectQuery,
+  updateProjectQuery,
+  updateTaskQuery,
+  taskQuery
+} from '@/utils/supaQueries'
 import { useMemoize } from '@vueuse/core'
-import type { Projects, Project } from '@/utils/supaQueries'
+import type { Projects, Project, Task } from '@/utils/supaQueries'
 
 export const useProjectsStore = defineStore('projects-store', () => {
   const projects = ref<Projects | null>(null)
   const project = ref<Project | null>(null)
+  const task = ref<Task | null>(null)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const loadProjects = useMemoize(async (key: string) => await projectsQuery)
   const loadProject = useMemoize(async (slug: string) => await projectQuery(slug))
+  const loadTask = useMemoize(async (id: string) => await taskQuery(id))
 
   interface ValidateCacheParams {
-    ref: typeof projects | typeof project
-    query: typeof projectsQuery | typeof projectQuery
+    ref: typeof projects | typeof project | typeof task
+    query: typeof projectsQuery | typeof projectQuery | typeof taskQuery
     key: string
-    loaderFn: typeof loadProjects | typeof loadProject
+    loaderFn: typeof loadProjects | typeof loadProject | typeof loadTask
   }
 
   const validateCache = ({ ref, query, key, loaderFn }: ValidateCacheParams) => {
@@ -60,11 +68,33 @@ export const useProjectsStore = defineStore('projects-store', () => {
     await updateProjectQuery(projectProperties, id)
   }
 
+  const getTask = async (id: string) => {
+    const { data, error, status } = await loadTask(id)
+
+    if (error) useErrorStore().setError({ error, customCode: status })
+
+    if (data) task.value = data
+
+    validateCache({ ref: task, query: taskQuery, key: id, loaderFn: loadTask })
+  }
+
+  const updateTask = async () => {
+    if (!task.value) return
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { projects, id, ...taskProperties } = task.value
+
+    await updateTaskQuery(taskProperties, id)
+  }
+
   return {
     projects,
     project,
+    task,
     getProjects,
     getProject,
-    updateProject
+    updateProject,
+    getTask,
+    updateTask
   }
 })
