@@ -72,6 +72,7 @@ declare global {
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
+  const useTasksStore: typeof import('./src/stores/loaders/tasks')['useTasksStore']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const viteConfig: typeof import('./vite.config')['default']
   const watch: typeof import('vue')['watch']

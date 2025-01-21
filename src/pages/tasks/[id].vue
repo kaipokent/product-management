@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { watchEffect } from 'vue'
 import { useCollabs } from '@/composables/collabs'
+import { useTasksStore } from '@/stores/loaders/tasks'
 
 const { id } = useRoute('/tasks/[id]').params
 
-const projectsLoader = useProjectsStore()
-const { task } = storeToRefs(projectsLoader)
-const { getTask, updateTask } = projectsLoader
+const tasksLoader = useTasksStore()
+const { task } = storeToRefs(tasksLoader)
+const { getTask, updateTask } = tasksLoader
 
 watchEffect(() => {
   usePageStore().pageData.title = `Task: ${task.value?.name || ''}`
@@ -22,7 +23,9 @@ const collabs = task.value?.collaborators ? await getProfilesByIds(task.value?.c
   <Table v-if="task">
     <TableRow>
       <TableHead> Name </TableHead>
-      <TableCell> <AppInPlaceEditText v-model="task.name" @commit="updateTask" /> </TableCell>
+      <TableCell>
+        <AppInPlaceEditText v-model="task.name" @commit="updateTask" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description </TableHead>
