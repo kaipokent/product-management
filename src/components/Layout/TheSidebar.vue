@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const router = useRouter()
 
+defineEmits(['taskClicked'])
+
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
   { title: 'Projects', to: '/projects', icon: 'lucide:building-2' },
@@ -32,9 +34,17 @@ const executeAction = async (linkTitle: string) => {
         <iconify-icon icon="lucide:menu"></iconify-icon>
       </Button>
 
-      <Button variant="outline" size="icon" class="w-8 h-8" aria-label="Plus?">
-        <iconify-icon icon="lucide:plus"></iconify-icon>
-      </Button>
+      <DropdownMenu class="w-8 h-8">
+        <DropdownMenuTrigger>
+          <Button variant="outline" size="icon" class="w-8 h-8" aria-label="Plus?">
+            <iconify-icon icon="lucide:plus"></iconify-icon>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem @click="$emit('taskClicked')">Task</DropdownMenuItem>
+          <DropdownMenuItem>Project</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
 
     <nav class="flex flex-col gap-2 justify-between h-full relative">

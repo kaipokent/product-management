@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { profile } = useAuthStore()
+const { profile } = storeToRefs(useAuthStore())
 </script>
 
 <template>
@@ -11,20 +11,31 @@ const { profile } = useAuthStore()
       ></iconify-icon>
       <Input class="w-full pl-8 bg-background" type="text" placeholder="Search ..." />
     </form>
-    <DropdownMenu>
+    <DropdownMenu v-if="profile">
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage :src="profile?.avatar_url || ''" />
-          <AvatarFallback></AvatarFallback>
+          <AvatarImage
+            :src="profile.avatar_url || ''"
+            :alt="`${profile.full_name} profile picture`"
+          />
+          <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+
+        <DropdownMenuItem>
+          <RouterLink
+            :to="{
+              name: '/users/[username]',
+              params: { username: profile.username }
+            }"
+            class="w-full h-full"
+          >
+            Profile
+          </RouterLink>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   </nav>
