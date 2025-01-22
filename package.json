@@ -20,6 +20,8 @@
     "db:seed": "node --env-file=.env database/seed.js"
   },
   "dependencies": {
+    "@formkit/core": "^1.6.9",
+    "@formkit/vue": "^1.6.9",
     "@supabase/supabase-js": "^2.43.5",
     "@tanstack/vue-table": "^8.20.4",
     "@volar/language-server": "2.4.0-alpha.18",
