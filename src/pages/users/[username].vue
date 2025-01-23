@@ -2,10 +2,14 @@
 import { profileQuery } from '@/utils/supaQueries'
 import { useErrorStore } from '@/stores/error'
 import type { Tables } from '../../../database/types'
+import { useHead } from '@unhead/vue'
 
 const { username } = useRoute('/users/[username]').params
 
 usePageStore().pageData.title = ''
+useHead({
+  title: 'Profile | Pulse'
+})
 
 const profile = ref<Tables<'profiles'> | null>(null)
 

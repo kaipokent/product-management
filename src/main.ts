@@ -5,12 +5,14 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { plugin } from '@formkit/vue'
 import config from '../formkit.config'
-
+import { createHead } from '@unhead/vue'
 import App from './App.vue'
 import router from './router'
 
+const head = createHead()
 const app = createApp(App)
 
+app.use(head)
 app.use(createPinia())
 app.use(router)
 app.use(plugin, config)

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Pulse'
+})
+
 const errorStore = useErrorStore()
 
 onErrorCaptured((error) => {

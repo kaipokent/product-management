@@ -2,8 +2,12 @@
 import { columns } from '@/utils/tableColumns/tasksColumns'
 import { tasksWithProjectsQuery } from '@/utils/supaQueries'
 import type { TasksWithProjects } from '@/utils/supaQueries'
+import { useHead } from '@unhead/vue'
 
 usePageStore().pageData.title = 'My Tasks'
+useHead({
+  title: 'My Tasks | Pulse'
+})
 
 const tasks = ref<TasksWithProjects | null>(null)
 
