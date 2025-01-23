@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { useMenu } from '@/composables/menu'
 import { useWindowSize } from '@vueuse/core'
+import { menuKey } from '@/utils/injectionKeys'
+import type { MenuInjectionKeys } from '@/utils/injectionKeys'
 
 const router = useRouter()
 
 defineEmits(['taskClicked'])
 
-const { menuOpen, toggleMenu } = useMenu()
+const { menuOpen, toggleMenu } = inject(menuKey) as MenuInjectionKeys
 const windowWidth = useWindowSize().width
 const { profile } = storeToRefs(useAuthStore())
 
