@@ -55,6 +55,8 @@ export type Task = QueryData<ReturnType<typeof taskQuery>>
 export const updateTaskQuery = (updatedTask = {}, id: number) =>
   supabase.from('tasks').update(updatedTask).eq('id', id)
 
+export const deleteTaskQuery = (id: number) => supabase.from('tasks').delete().eq('id', id)
+
 export const profilesQuery = supabase.from('profiles').select('id, full_name')
 export type Profiles = QueryData<typeof profilesQuery>
 

@@ -19,7 +19,7 @@ const toggleStatus = () => {
     @click="toggleStatus"
     :aria-labelledby="ariaId"
   >
-    <Transition mode="out-in">
+    <Transition name="scale" mode="out-in">
       <iconify-icon
         v-if="status === 'completed'"
         icon="lucide:circle-check"
@@ -35,15 +35,3 @@ const toggleStatus = () => {
     </Transition>
   </button>
 </template>
-
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: transform 0.1s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  transform: scale(0.3);
-}
-</style>
