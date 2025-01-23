@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { useMenu } from '@/composables/menu'
+import { useWindowSize } from '@vueuse/core'
+
 const router = useRouter()
 
 defineEmits(['taskClicked'])
+
+const { menuOpen, toggleMenu } = useMenu()
+const windowWidth = useWindowSize().width
+const { profile } = storeToRefs(useAuthStore())
 
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
@@ -10,8 +17,7 @@ const links = [
 ]
 
 const accountLinks = [
-  { title: 'Profile', to: '/profile', icon: 'lucide:user' },
-  { title: 'Settings', to: '/settings', icon: 'lucide:settings' },
+  { title: 'Profile', to: `/users/${profile.value?.username}`, icon: 'lucide:user' },
   { title: 'Sign out', icon: 'lucide:log-out' }
 ]
 
@@ -23,14 +29,27 @@ const executeAction = async (linkTitle: string) => {
     if (isLoggedOut) router.push('/login')
   }
 }
+
+watchEffect(() => {
+  menuOpen.value = windowWidth.value > 1024
+})
 </script>
 
 <template>
   <aside
-    class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 transition-[width]"
+    :class="[
+      'flex flex-col h-screen gap-2 border-r fixed bg-muted/40 transition-[width]',
+      { 'w-52': menuOpen, 'w-24': !menuOpen }
+    ]"
   >
     <div class="flex h-16 items-center border-b px-2 lg:px-4 shrink-0 gap-1 justify-between">
-      <Button variant="outline" size="icon" class="w-8 h-8" aria-label="Toggle navigation">
+      <Button
+        @click="toggleMenu"
+        variant="outline"
+        size="icon"
+        class="w-8 h-8"
+        aria-label="Toggle navigation"
+      >
         <iconify-icon icon="lucide:menu"></iconify-icon>
       </Button>
 
